@@ -1,11 +1,50 @@
-# ExoPlayer
-ExoPlayer is an application level media player that provides an alternative to Android’s MediaPlayer API. We can play audio and video both locally and stream over the Internet. It supports features DASH and SmoothStreaming adaptive playbacks. Its very easy to customize as per needs.
+# ExoPlayerSample1
 
-# Architecture of ExoPlayer
-![alt text](https://github.com/manikantakotthapalli/ExoPlayer/blob/master/Images/exoplayer_Architecture.png)
+This Sample demostrating playing a simple video file using exo player.
 
-Audio/Video Renderer: Receives audio or video data from the exoplayer and renders them on the device.
+# Gradel changes
+    '''
+    compile 'com.google.android.exoplayer:exoplayer:r2.4.0'
+    compile 'com.google.android.exoplayer:exoplayer-core:r2.4.0'
+    compile 'com.google.android.exoplayer:exoplayer-dash:r2.4.0'
+    compile 'com.google.android.exoplayer:exoplayer-hls:r2.4.0'
+    compile 'com.google.android.exoplayer:exoplayer-smoothstreaming:r2.4.0'
+    compile 'com.google.android.exoplayer:exoplayer-ui:r2.4.0'
+    
+    '''
+    
+# UI - activity_main.xaml
 
-Track Selector: Selects the appropriate track based on the client bandwidth and device specification.
+'''
+<com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/exoplayer_view">
+</com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+'''
 
-Load Controller: Take cares of the data, like when to buffer, when to stream.
+# Java
+
+'''
+
+        // BangwidthMeter to inspects the client Badwidth time to time
+        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+
+        // TrackSelector helps in selecting the track for the client based on his capabilities.
+        TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
+
+
+        DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("Sample Video");
+        ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+        MediaSource mediaSource = new ExtractorMediaSource(Uri.parse("http://techslides.com/demos/sample-videos/small.webm"),
+                dataSourceFactory, extractorsFactory, null, null);
+
+        SimpleExoPlayerView exoPlayerView = (SimpleExoPlayerView) findViewById(R.id.exoplayer_view);
+        SimpleExoPlayer player = ExoPlayerFactory.newSimpleInstance(this,trackSelector);
+
+        exoPlayerView.setPlayer(player);
+        player.prepare(mediaSource);
+        player.setPlayWhenReady(true);
+
+'''
+
