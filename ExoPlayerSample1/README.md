@@ -13,7 +13,7 @@ This Sample demostrating playing a simple video file using exo player.
     
     '''
     
-# UI - activity_main.xaml
+# UI - activity_main.xml
 
 '''
 <com.google.android.exoplayer2.ui.SimpleExoPlayerView
@@ -23,7 +23,7 @@ This Sample demostrating playing a simple video file using exo player.
 </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
 '''
 
-# Java
+# MainActivity.java
 
 '''
 
